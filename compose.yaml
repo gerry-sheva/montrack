@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: 'postgres:alpine'
+    restart: always
+    environment:
+      - 'POSTGRES_DB=montrack'
+      - 'POSTGRES_PASSWORD=hehehe'
+      - 'POSTGRES_USER=shevaaa'
+    ports:
+      - '5432'
