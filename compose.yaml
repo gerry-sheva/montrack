@@ -7,4 +7,4 @@ services:
       - 'POSTGRES_PASSWORD=hehehe'
       - 'POSTGRES_USER=shevaaa'
     ports:
-      - '5432'
+      - '5432:5432'
