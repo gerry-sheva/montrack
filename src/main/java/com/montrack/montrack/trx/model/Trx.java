@@ -1,8 +1,8 @@
 package com.montrack.montrack.trx.model;
 
+import com.montrack.montrack.pocket.model.Pocket;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "trx")
-public class trx {
+public class Trx {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "trx_id_gen")
     @SequenceGenerator(name = "trx_id_gen", sequenceName = "trx_id_seq")
@@ -30,6 +30,11 @@ public class trx {
     private String attachment;
 
     @NotNull
+    @Column(name = "amount")
     private int amount;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "pocket_id", nullable = true)
+    private Pocket pocket;
 
 }

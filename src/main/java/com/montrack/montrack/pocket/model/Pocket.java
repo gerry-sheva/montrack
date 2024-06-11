@@ -1,11 +1,15 @@
 package com.montrack.montrack.pocket.model;
 
+import com.montrack.montrack.trx.model.Trx;
 import com.montrack.montrack.wallet.model.Wallet;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -43,4 +47,7 @@ public class Pocket {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "wallet_id", nullable = false)
     private Wallet wallet;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Trx> trxs = new HashSet<>();
 }
