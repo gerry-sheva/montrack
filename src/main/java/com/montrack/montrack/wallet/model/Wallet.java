@@ -1,5 +1,6 @@
 package com.montrack.montrack.wallet.model;
 
+import com.montrack.montrack.pocket.model.Pocket;
 import com.montrack.montrack.user.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,9 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -33,9 +37,12 @@ public class Wallet {
 
     @Positive
     @Column(name = "balance",nullable = false)
-    private Long balance;
+    private int balance;
 
     @NotNull
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "wallet")
+    private Set<Pocket> pockets = new HashSet<>();
 }

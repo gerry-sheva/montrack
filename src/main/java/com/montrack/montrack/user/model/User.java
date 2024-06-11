@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -42,5 +43,5 @@ public class User {
     private UserAuth userAuth;
 
     @OneToMany(mappedBy = "user")
-    private Set<Wallet> wallets;
+    private Set<Wallet> wallets = new HashSet<>();
 }
