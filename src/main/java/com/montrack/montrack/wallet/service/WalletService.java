@@ -9,4 +9,5 @@ public interface WalletService {
     void createWallet(Wallet wallet);
     List<WalletDto> retrieveWallets();
     WalletDto changeActiveWallet(Long walletId);
+    WalletDto updateWallet(Long walletId, WalletDto walletDto);
 }

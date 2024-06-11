@@ -58,4 +58,18 @@ public class WalletServiceImpl implements WalletService {
         WalletDto walletDto = new WalletDto(selectedWallet.getId(), selectedWallet.getName(), selectedWallet.getCurrency(), selectedWallet.getBalance(), selectedWallet.getIsActive());
         return walletDto;
     }
+
+    @Override
+    public WalletDto updateWallet(Long walletId, WalletDto walletDto) {
+        Optional<Wallet> walletOption = walletRepository.findById(walletId);
+        if (walletOption.isEmpty()){
+            return null;
+        }
+        Wallet wallet = walletOption.get();
+        wallet.setName(walletDto.getName());
+        wallet.setCurrency(walletDto.getCurrency());
+        wallet.setBalance(walletDto.getBalance());
+        walletRepository.save(wallet);
+        return walletDto;
+    }
 }
