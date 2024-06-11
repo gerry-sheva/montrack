@@ -27,8 +27,7 @@ public class walletController {
     }
 
     @PutMapping("/active/{id}")
-    public String activateWallet(@PathVariable("id") Long id) {
-        walletService.changeActiveWallet(id);
-        return "changed";
+    public WalletDto activateWallet(@PathVariable("id") Long id) {
+        return walletService.changeActiveWallet(id);
     }
 }

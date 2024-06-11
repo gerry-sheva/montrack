@@ -4,6 +4,7 @@ import com.montrack.montrack.wallet.model.Wallet;
 import com.montrack.montrack.wallet.model.dto.WalletDto;
 import com.montrack.montrack.wallet.repository.WalletRepository;
 import com.montrack.montrack.wallet.service.WalletService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public WalletDto changeActiveWallet(Long walletId) {
         Optional<Wallet> walletOption = walletRepository.findByUserIdAndIsActive(2L, true);
         System.out.println(walletOption);
@@ -53,6 +55,7 @@ public class WalletServiceImpl implements WalletService {
         Wallet selectedWallet = walletOption2.get();
         selectedWallet.setIsActive(true);
         walletRepository.save(selectedWallet);
-        return null;
+        WalletDto walletDto = new WalletDto(selectedWallet.getId(), selectedWallet.getName(), selectedWallet.getCurrency(), selectedWallet.getBalance(), selectedWallet.getIsActive());
+        return walletDto;
     }
 }
