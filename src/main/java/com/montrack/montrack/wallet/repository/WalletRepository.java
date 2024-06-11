@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
     Optional<List<Wallet>> findByUserId(Long userId);
+    Optional<Wallet> findByUserIdAndIsActive(Long userId, Boolean isActive);
 }

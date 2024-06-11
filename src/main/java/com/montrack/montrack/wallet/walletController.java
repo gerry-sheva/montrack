@@ -25,4 +25,10 @@ public class walletController {
     public List<WalletDto> getAllWallets() {
         return walletService.retrieveWallets();
     }
+
+    @PutMapping("/active/{id}")
+    public String activateWallet(@PathVariable("id") Long id) {
+        walletService.changeActiveWallet(id);
+        return "changed";
+    }
 }

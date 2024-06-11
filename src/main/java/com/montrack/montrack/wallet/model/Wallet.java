@@ -34,4 +34,8 @@ public class Wallet {
     @Positive
     @Column(name = "balance",nullable = false)
     private Long balance;
+
+    @NotNull
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive;
 }

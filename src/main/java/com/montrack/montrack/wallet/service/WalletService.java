@@ -8,4 +8,5 @@ import java.util.List;
 public interface WalletService {
     void createWallet(Wallet wallet);
     List<WalletDto> retrieveWallets();
+    WalletDto changeActiveWallet(Long walletId);
 }

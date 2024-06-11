@@ -12,4 +12,5 @@ public class WalletDto {
     private String name;
     private String currency;
     private Long balance;
+    private boolean isActive;
 }
