@@ -1,6 +1,7 @@
 package com.montrack.montrack.wallet.service;
 
 import com.montrack.montrack.wallet.model.Wallet;
+import com.montrack.montrack.wallet.model.dto.SummaryDto;
 import com.montrack.montrack.wallet.model.dto.WalletDto;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface WalletService {
     List<WalletDto> retrieveWallets();
     WalletDto changeActiveWallet(Long walletId);
     WalletDto updateWallet(Long walletId, WalletDto walletDto);
+    SummaryDto summarizeWallet(Long walletId);
 }

@@ -1,6 +1,9 @@
 package com.montrack.montrack.wallet.service.impl;
 
+import com.montrack.montrack.pocket.repository.PocketRepository;
 import com.montrack.montrack.wallet.model.Wallet;
+import com.montrack.montrack.wallet.model.dto.Summary;
+import com.montrack.montrack.wallet.model.dto.SummaryDto;
 import com.montrack.montrack.wallet.model.dto.WalletDto;
 import com.montrack.montrack.wallet.repository.WalletRepository;
 import com.montrack.montrack.wallet.service.WalletService;
@@ -16,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
+    private final PocketRepository pocketRepository;
 
     @Override
     public void createWallet(Wallet wallet) {
@@ -55,8 +59,7 @@ public class WalletServiceImpl implements WalletService {
         Wallet selectedWallet = walletOption2.get();
         selectedWallet.setIsActive(true);
         walletRepository.save(selectedWallet);
-        WalletDto walletDto = new WalletDto(selectedWallet.getId(), selectedWallet.getName(), selectedWallet.getCurrency(), selectedWallet.getBalance(), selectedWallet.getIsActive());
-        return walletDto;
+        return new WalletDto(selectedWallet.getId(), selectedWallet.getName(), selectedWallet.getCurrency(), selectedWallet.getBalance(), selectedWallet.getIsActive());
     }
 
     @Override
@@ -71,5 +74,15 @@ public class WalletServiceImpl implements WalletService {
         wallet.setBalance(walletDto.getBalance());
         walletRepository.save(wallet);
         return walletDto;
+    }
+
+    @Override
+    public SummaryDto summarizeWallet(Long walletId) {
+        Summary result = pocketRepository.summarizeWallet(walletId);
+        int total = result.getTotal();
+        int income = result.getIncome();
+        int expense = result.getExpense();
+        int numOfPockets = result.getNumOfPockets();
+        return new SummaryDto(total, income, expense, numOfPockets);
     }
 }
