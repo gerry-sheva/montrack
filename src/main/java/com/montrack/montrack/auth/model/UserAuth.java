@@ -30,10 +30,10 @@ public class UserAuth implements UserDetails {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
-
-    @NotNull
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+//
+//    @NotNull
+//    @Column(name = "username", nullable = false, unique = true)
+//    private String username;
 
     @NotNull
     @Column(name = "email", nullable = false, unique = true)
@@ -46,6 +46,11 @@ public class UserAuth implements UserDetails {
     @NotNull
     @Column(name = "role", nullable = false)
     private String role;
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
