@@ -3,8 +3,12 @@ package com.montrack.montrack.auth;
 import com.montrack.montrack.auth.model.UserAuth;
 import com.montrack.montrack.auth.model.dto.LoginRequestDto;
 import com.montrack.montrack.auth.model.dto.LoginResponseDto;
+import com.montrack.montrack.auth.model.dto.RegisterRequestDto;
 import com.montrack.montrack.auth.service.AuthService;
+import com.montrack.montrack.user.model.User;
+import com.montrack.montrack.user.service.UserService;
 import jakarta.servlet.http.Cookie;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +32,15 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final AuthService authService;
+    private final UserService userService;
+
+    @PostMapping("/register")
+    @Transactional
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDto registerRequestDto) {
+        User user = userService.registerUser(new User());
+        UserDetails userAuth = authService.registerUserAuth(user, registerRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto userLogin) throws IllegalAccessException {
@@ -53,5 +67,4 @@ public class AuthController {
         headers.add("Set-Cookie", cookie.getName() + "=" + cookie.getValue() + "; Path=/; HttpOnly");
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response);
     }
-
 }

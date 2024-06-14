@@ -1,11 +1,15 @@
 package com.montrack.montrack.auth.service.impl;
 
+import com.montrack.montrack.auth.model.UserAuth;
+import com.montrack.montrack.auth.model.dto.RegisterRequestDto;
 import com.montrack.montrack.auth.repository.UserAuthRepository;
 import com.montrack.montrack.auth.service.AuthService;
+import com.montrack.montrack.user.model.User;
 import com.montrack.montrack.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -44,5 +48,16 @@ public class AuthServiceImpl  implements AuthService {
                 .claim("scope", scope)
                 .build();
         return jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
+    }
+
+    @Override
+    public UserDetails registerUserAuth(User user, RegisterRequestDto registerRequestDto) {
+        String pwd = passwordEncoder.encode(registerRequestDto.getPassword());
+        UserAuth userAuth = new UserAuth();
+        userAuth.setUser(user);
+        userAuth.setEmail(registerRequestDto.getEmail());
+        userAuth.setPassword(pwd);
+        userAuth.setRole("dumdum");
+        return userAuthRepository.save(userAuth);
     }
 }
