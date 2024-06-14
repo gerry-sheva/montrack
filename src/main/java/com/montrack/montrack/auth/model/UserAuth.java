@@ -2,9 +2,11 @@ package com.montrack.montrack.auth.model;
 
 import com.montrack.montrack.user.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,16 +28,15 @@ public class UserAuth implements UserDetails {
     @JoinColumn(name = "id")
     private User user;
 
-    @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at", nullable = false)
+    @UpdateTimestamp
     private Timestamp updatedAt;
 //
 //    @NotNull
 //    @Column(name = "username", nullable = false, unique = true)
 //    private String username;
 
-    @NotNull
+    @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
