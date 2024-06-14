@@ -77,12 +77,13 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public SummaryDto summarizeWallet(Long walletId) {
+    public Summary summarizeWallet(Long walletId) {
         Summary result = pocketRepository.summarizeWallet(walletId);
-        int total = result.getTotal();
-        int income = result.getIncome();
-        int expense = result.getExpense();
-        int numOfPockets = result.getNumOfPockets();
-        return new SummaryDto(total, income, expense, numOfPockets);
+//        int total = result.getTotal();
+//        int income = result.getIncome();
+//        int expense = result.getExpense();
+//        int numOfPockets = result.getNumOfPockets();
+//        return new SummaryDto(total, income, expense, numOfPockets);
+        return result;
     }
 }

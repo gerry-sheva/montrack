@@ -1,6 +1,7 @@
 package com.montrack.montrack.wallet;
 
 import com.montrack.montrack.wallet.model.Wallet;
+import com.montrack.montrack.wallet.model.dto.Summary;
 import com.montrack.montrack.wallet.model.dto.SummaryDto;
 import com.montrack.montrack.wallet.model.dto.WalletDto;
 import com.montrack.montrack.wallet.service.WalletService;
@@ -38,7 +39,7 @@ public class walletController {
     }
 
     @GetMapping("/summary/{id}")
-    public SummaryDto retrieveSummary(@PathVariable("id") Long id) {
+    public Summary retrieveSummary(@PathVariable("id") Long id) {
         return walletService.summarizeWallet(id);
     }
 }
