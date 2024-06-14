@@ -1,6 +1,8 @@
 package com.montrack.montrack.auth.service.impl;
 
 import com.montrack.montrack.auth.model.UserAuth;
+import com.montrack.montrack.auth.model.dto.PinRequestDto;
+import com.montrack.montrack.auth.model.dto.PinResponseDto;
 import com.montrack.montrack.auth.model.dto.RegisterRequestDto;
 import com.montrack.montrack.auth.repository.UserAuthRepository;
 import com.montrack.montrack.auth.service.AuthService;
@@ -9,6 +11,7 @@ import com.montrack.montrack.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -59,5 +62,27 @@ public class AuthServiceImpl  implements AuthService {
         userAuth.setPassword(pwd);
         userAuth.setRole("dumdum");
         return userAuthRepository.save(userAuth);
+    }
+
+    @Override
+    public PinResponseDto setPin(PinRequestDto pinRequestDto) throws IllegalAccessException {
+//        Check whether the user is logged in or not
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalAccessException();
+        }
+//        Check whether the user has already set a pin
+        UserAuth userAuth = userAuthRepository.findByEmail(authentication.getName());
+        boolean isUpdating = userAuth.getPin() != null;
+
+        if (isUpdating) {
+         String oldPin = pinRequestDto.getOldPin();
+         if (!oldPin.equals(userAuth.getPin())) {
+             throw new IllegalAccessException();
+         }
+        }
+        userAuth.setPin(pinRequestDto.getNewPin());
+        userAuthRepository.save(userAuth);
+        return new PinResponseDto(pinRequestDto.getNewPin());
     }
 }

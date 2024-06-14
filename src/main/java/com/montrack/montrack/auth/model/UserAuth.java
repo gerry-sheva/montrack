@@ -44,6 +44,9 @@ public class UserAuth implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "pin", nullable = true)
+    private String pin;
+
     @NotNull
     @Column(name = "role", nullable = false)
     private String role;

@@ -1,9 +1,7 @@
 package com.montrack.montrack.auth;
 
 import com.montrack.montrack.auth.model.UserAuth;
-import com.montrack.montrack.auth.model.dto.LoginRequestDto;
-import com.montrack.montrack.auth.model.dto.LoginResponseDto;
-import com.montrack.montrack.auth.model.dto.RegisterRequestDto;
+import com.montrack.montrack.auth.model.dto.*;
 import com.montrack.montrack.auth.service.AuthService;
 import com.montrack.montrack.user.model.User;
 import com.montrack.montrack.user.service.UserService;
@@ -65,6 +63,13 @@ public class AuthController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie", cookie.getName() + "=" + cookie.getValue() + "; Path=/; HttpOnly");
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response);
+    }
+
+    @PostMapping("/pin")
+    public ResponseEntity<?> setPin(@RequestBody PinRequestDto pinRequestDto) throws IllegalAccessException {
+        PinResponseDto response = authService.setPin(pinRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
