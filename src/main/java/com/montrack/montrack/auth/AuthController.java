@@ -72,4 +72,9 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/forgot")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPwdRequestDto forgotPwdRequestDto) {
+        authService.resetPwd(forgotPwdRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

@@ -1,9 +1,7 @@
 package com.montrack.montrack.auth.service.impl;
 
 import com.montrack.montrack.auth.model.UserAuth;
-import com.montrack.montrack.auth.model.dto.PinRequestDto;
-import com.montrack.montrack.auth.model.dto.PinResponseDto;
-import com.montrack.montrack.auth.model.dto.RegisterRequestDto;
+import com.montrack.montrack.auth.model.dto.*;
 import com.montrack.montrack.auth.repository.UserAuthRepository;
 import com.montrack.montrack.auth.service.AuthService;
 import com.montrack.montrack.user.model.User;
@@ -89,5 +87,16 @@ public class AuthServiceImpl  implements AuthService {
         userAuth.setPin(pinRequestDto.getNewPin());
         userAuthRepository.save(userAuth);
         return new PinResponseDto(pinRequestDto.getNewPin());
+    }
+
+    @Override
+    public ForgotPwdResponseDto resetPwd(ForgotPwdRequestDto forgotPwdRequestDto) {
+        UserAuth userAuth = userAuthRepository.findByEmail(forgotPwdRequestDto.getEmail());
+        if (userAuth == null) {
+            return null;
+        }
+        userAuth.setPassword(forgotPwdRequestDto.getNewPassword());
+        userAuthRepository.save(userAuth);
+        return null;
     }
 }
