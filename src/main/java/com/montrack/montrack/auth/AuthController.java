@@ -53,9 +53,8 @@ public class AuthController {
 
         var ctx = SecurityContextHolder.getContext();
         ctx.setAuthentication(authentication);
-
         UserAuth userDetails = (UserAuth) authentication.getPrincipal();
-        log.info("Token requested for user :" + userDetails.getUsername() + " with roles: " + userDetails.getAuthorities().toArray()[0]);
+        log.info("Token requested for user :" + userDetails.getUsername() + " with roles: " + userDetails.getAuthorities());
         String token = authService.generateToken(authentication);
 
         LoginResponseDto response = new LoginResponseDto();
