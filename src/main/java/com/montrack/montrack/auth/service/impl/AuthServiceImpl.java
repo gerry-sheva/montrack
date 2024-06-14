@@ -74,13 +74,18 @@ public class AuthServiceImpl  implements AuthService {
 //        Check whether the user has already set a pin
         UserAuth userAuth = userAuthRepository.findByEmail(authentication.getName());
         boolean isUpdating = userAuth.getPin() != null;
-
+//      If the user is updating their pin, make sure that they input their old pin
         if (isUpdating) {
          String oldPin = pinRequestDto.getOldPin();
          if (!oldPin.equals(userAuth.getPin())) {
              throw new IllegalAccessException();
          }
         }
+//        Check whether the pin is correct
+        if (!pinRequestDto.getNewPin().equals(pinRequestDto.getConfirmPin())) {
+            throw new IllegalAccessException();
+        }
+
         userAuth.setPin(pinRequestDto.getNewPin());
         userAuthRepository.save(userAuth);
         return new PinResponseDto(pinRequestDto.getNewPin());
